@@ -1,0 +1,73 @@
+body {
+color: #005b96;
+text-align: center;
+margin-bottom: 20px;
+}
+
+.app-input {
+width: 500px;
+padding: 16px 20px;
+border-radius: 14px;
+border: 2px solid #4facfe;
+font-size: 18px;
+outline: none;
+background: rgba(255, 255, 255, 0.7);
+backdrop-filter: blur(4px);
+transition: 0.3s ease;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+.app-box {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+gap: 20px;
+flex-wrap: wrap;
+}
+
+
+.app-cinfo {
+flex: 1;
+background: #f2fbff;
+padding: 20px;
+border-radius: 15px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+.app-subtitle {
+font-size: 20px;
+margin-bottom: 10px;
+}
+
+
+.app-subtitle-info {
+font-weight: 600;
+}
+
+
+.app-changuages {
+margin-top: 10px;
+list-style: none;
+}
+
+
+.clanguages-item {
+background: #e8f7ff;
+padding: 8px 12px;
+margin-bottom: 8px;
+border-radius: 8px;
+border: 1px solid #bfe8ff;
+}
+
+
+.clanguages-subtitle {
+font-size: 18px;
+}
+
+
+.app-cimage img {
+border-radius: 15px;
+box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
