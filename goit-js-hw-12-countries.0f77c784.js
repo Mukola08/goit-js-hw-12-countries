@@ -714,26 +714,79 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"2R06K":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _lodash = require("lodash");
 var _pnotifyJs = require("@pnotify/core/dist/PNotify.js");
 var _pnotifyMobileJs = require("@pnotify/mobile/dist/PNotifyMobile.js");
 var _brightThemeCss = require("@pnotify/core/dist/BrightTheme.css");
 var _pnotifyCss = require("@pnotify/core/dist/PNotify.css");
 var _pnotifyMobileCss = require("@pnotify/mobile/dist/PNotifyMobile.css");
+var _fetchCountries = require("./fetchCountries");
+var _fetchCountriesDefault = parcelHelpers.interopDefault(_fetchCountries);
 (0, _pnotifyJs.defaultModules).set(_pnotifyMobileJs, {});
-(0, _pnotifyJs.alert)({
-    text: "\u041C\u043E\u044F \u043F\u0435\u0440\u0448\u0430 \u043D\u043E\u0442\u0438\u0444\u0456\u043A\u0430\u0446\u0456\u044F!"
-});
-function fatchUser() {
-    return fetch("https://restcountries.com/v3.1/all?fields=name").then((res)=>res.json());
+const appInput = document.querySelector(".app-input");
+const appList = document.querySelector(".app-list");
+const appDiv = document.querySelector(".app-div");
+appInput.addEventListener("input", (0, _lodash.debounce)(searchCountry, 500));
+function searchCountry(evt) {
+    appList.innerHTML = "";
+    appDiv.innerHTML = "";
+    const countryName = evt.target.value.trim();
+    (0, _fetchCountriesDefault.default)(countryName).then((res)=>{
+        if (res.length > 10) {
+            appList.innerHTML = "";
+            appDiv.innerHTML = "";
+            errorMessage();
+            return;
+        }
+        if (res.length > 1 && res.length <= 10) {
+            appList.innerHTML = "";
+            appDiv.innerHTML = "";
+            const countryName = res.map((country)=>`<li class="app-item">${country.name.common}</li>`).join("");
+            appList.innerHTML = countryName;
+            return;
+        }
+        if (res.length === 1) {
+            appList.innerHTML = "";
+            appDiv.innerHTML = "";
+            const countryInfo = res.map(({ name, capital, population, flags, languages })=>{
+                const values = Object.values(languages);
+                return (appDiv.innerHTML = `<h1 class="app-cname">${name.common}</h1>
+    <div class="app-box">
+    <div class="app-cinfo">
+    <h3 class="app-subtitle">Capital: <span
+    class="app-subtitle-info">${capital}</span></h3>
+    <h3 class="app-subtitle">Population: <span
+    class="app-subtitle-info"></span>${[
+                    population
+                ]}</h3>
+    <h3 class="app-subtitle">languages:
+    <ul class = "app-changuages">
+    ${values.map((languages)=>`<li class = "clanguages-item">
+      <h3 class="clanguages-subtitle">${languages}</h3>
+      </li>`).join("")}
+            </ul>
+            </h3>
+            </div>
+            <div class="app-cimage"> 
+            <img src="${flags.png}" alt="Country Flag." class="app-cimg" width="400" height="300"> 
+            </div>
+             </div>`).join("");
+            });
+            console.log(countryInfo);
+            return;
+        }
+    });
 }
-fatchUser().then((res)=>console.log(res));
-const inputRef = document.querySelector(".inp");
-inputRef.addEventListener("input", (evt)=>{
-    console.log(evt.target.value.trim());
-});
+function errorMessage() {
+    (0, _pnotifyJs.error)({
+        title: "Oh No!",
+        text: "Write the name of the country more precisely!",
+        deley: 1000
+    });
+}
 
-},{"lodash":"LUhzz","@pnotify/core/dist/PNotify.js":"fay4s","@pnotify/mobile/dist/PNotifyMobile.js":"5RXYV","@pnotify/core/dist/BrightTheme.css":"grIyt","@pnotify/core/dist/PNotify.css":"c4y47","@pnotify/mobile/dist/PNotifyMobile.css":"iv3sV"}],"LUhzz":[function(require,module,exports,__globalThis) {
+},{"lodash":"LUhzz","@pnotify/core/dist/PNotify.js":"fay4s","@pnotify/mobile/dist/PNotifyMobile.js":"5RXYV","@pnotify/core/dist/BrightTheme.css":"grIyt","@pnotify/core/dist/PNotify.css":"c4y47","@pnotify/mobile/dist/PNotifyMobile.css":"iv3sV","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./fetchCountries":"bCGdT"}],"LUhzz":[function(require,module,exports,__globalThis) {
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -17931,6 +17984,44 @@ var global = arguments[3];
     });
 });
 
-},{}],"grIyt":[function() {},{}],"c4y47":[function() {},{}],"iv3sV":[function() {},{}]},["7wZbQ","2R06K"], "2R06K", "parcelRequirec490", {})
+},{}],"grIyt":[function() {},{}],"c4y47":[function() {},{}],"iv3sV":[function() {},{}],"jnFvT":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"bCGdT":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>fetchCountries);
+function fetchCountries(searchQuery) {
+    return fetch(`https://restcountries.com/v3.1/name/${searchQuery}`).then((res)=>res.json());
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["7wZbQ","2R06K"], "2R06K", "parcelRequirec490", {})
 
 //# sourceMappingURL=goit-js-hw-12-countries.0f77c784.js.map
